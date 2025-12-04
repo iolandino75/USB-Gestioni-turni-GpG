@@ -1,0 +1,2281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Turni GPG">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#208096">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23208096' width='180' height='180'/><text x='90' y='100' font-size='80' fill='white' text-anchor='middle' font-weight='bold'>🛡️</text></svg>">
+    <title>Gestione Turni GPG</title>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-gray-400: rgba(119, 124, 124, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            --color-brown-600: rgba(94, 82, 64, 1);
+            --color-charcoal-700: rgba(31, 33, 33, 1);
+            --color-charcoal-800: rgba(38, 40, 40, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-400: rgba(45, 166, 178, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+
+            --color-brown-600-rgb: 94, 82, 64;
+            --color-teal-500-rgb: 33, 128, 141;
+            --color-slate-900-rgb: 19, 52, 59;
+            --color-slate-500-rgb: 98, 108, 113;
+
+            --color-bg-1: rgba(59, 130, 246, 0.08);
+            --color-bg-2: rgba(245, 158, 11, 0.08);
+            --color-bg-3: rgba(34, 197, 94, 0.08);
+            --color-bg-4: rgba(239, 68, 68, 0.08);
+            --color-bg-5: rgba(147, 51, 234, 0.08);
+            --color-bg-6: rgba(249, 115, 22, 0.08);
+            --color-bg-7: rgba(236, 72, 153, 0.08);
+            --color-bg-8: rgba(6, 182, 212, 0.08);
+
+            --color-background: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-text: var(--color-slate-900);
+            --color-text-secondary: var(--color-slate-500);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+            --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+            --color-btn-primary-text: var(--color-cream-50);
+            --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+            --color-error: var(--color-red-500);
+            --color-success: var(--color-teal-500);
+            --color-warning: var(--color-orange-500);
+            --color-info: var(--color-slate-500);
+            --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+
+            --font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-family-mono: 'Courier New', monospace;
+            --font-size-xs: 11px;
+            --font-size-sm: 12px;
+            --font-size-base: 14px;
+            --font-size-md: 14px;
+            --font-size-lg: 16px;
+            --font-size-xl: 18px;
+            --font-size-2xl: 20px;
+            --font-size-3xl: 24px;
+            --font-size-4xl: 30px;
+            --font-weight-normal: 400;
+            --font-weight-medium: 500;
+            --font-weight-semibold: 550;
+            --font-weight-bold: 600;
+            --line-height-tight: 1.2;
+            --line-height-normal: 1.5;
+            --letter-spacing-tight: -0.01em;
+
+            --space-0: 0;
+            --space-1: 1px;
+            --space-2: 2px;
+            --space-4: 4px;
+            --space-6: 6px;
+            --space-8: 8px;
+            --space-10: 10px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-32: 32px;
+
+            --radius-sm: 6px;
+            --radius-base: 8px;
+            --radius-md: 10px;
+            --radius-lg: 12px;
+            --radius-full: 9999px;
+
+            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+
+            --duration-fast: 150ms;
+            --duration-normal: 250ms;
+            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family-base);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: var(--line-height-normal);
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            padding: env(safe-area-inset-top) 0 0 0;
+        }
+
+        header {
+            background-color: var(--color-primary);
+            color: var(--color-btn-primary-text);
+            padding: var(--space-12) var(--space-16);
+            margin: 0;
+            border-radius: 0;
+            box-shadow: var(--shadow-md);
+            flex-shrink: 0;
+            padding-top: max(var(--space-12), env(safe-area-inset-top));
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        header p {
+            margin: var(--space-4) 0 0 0;
+            font-size: var(--font-size-sm);
+            opacity: 0.85;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0;
+            margin: 0;
+            border-bottom: 2px solid var(--color-border);
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            flex-shrink: 0;
+        }
+
+        .nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-tabs button {
+            padding: var(--space-10) var(--space-12);
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-standard);
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-tabs button.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .nav-tabs button:hover {
+            color: var(--color-text);
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--space-12);
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--space-12);
+            grid-template-columns: 1fr;
+        }
+
+        .card {
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-16);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card h3 {
+            margin: 0 0 var(--space-12) 0;
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .stat-value {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin: var(--space-8) 0;
+        }
+
+        .stat-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-10) var(--space-14);
+            border-radius: var(--radius-base);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            border: none;
+            transition: all var(--duration-normal) var(--ease-standard);
+            text-decoration: none;
+            -webkit-appearance: none;
+            touch-action: manipulation;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-btn-primary-text);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-secondary);
+            color: var(--color-text);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-secondary-hover);
+        }
+
+        .btn-sm {
+            padding: var(--space-4) var(--space-12);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-16);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--space-8);
+            font-weight: var(--font-weight-medium);
+            font-size: var(--font-size-sm);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: var(--space-8) var(--space-12);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-base);
+            font-family: var(--font-family-base);
+            font-size: var(--font-size-base);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px var(--color-focus-ring);
+        }
+
+        .calendar {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--space-20);
+        }
+
+        .calendar th {
+            background-color: var(--color-secondary);
+            padding: var(--space-12);
+            text-align: center;
+            font-weight: var(--font-weight-semibold);
+            border: 1px solid var(--color-border);
+        }
+
+        .calendar td {
+            border: 1px solid var(--color-border);
+            padding: var(--space-8);
+            height: 100px;
+            vertical-align: top;
+            cursor: pointer;
+            transition: background-color var(--duration-fast);
+            font-size: var(--font-size-sm);
+            overflow-y: auto;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .calendar td:hover {
+            background-color: var(--color-secondary-hover);
+        }
+
+        .calendar td.riposo {
+            background-color: #c8e6c9;
+        }
+
+        .calendar td.mattina {
+            background-color: #fff9c4;
+        }
+
+        .calendar td.pomeriggio {
+            background-color: #ffe0b2;
+        }
+
+        .calendar td.notte {
+            background-color: #e1bee7;
+        }
+
+        .calendar td.ferie {
+            background-color: #b3e5fc;
+        }
+
+        .calendar td.rol {
+            background-color: #f8bbd0;
+        }
+
+        .calendar td.domenica {
+            background-color: #ffcdd2;
+        }
+
+        .calendar td.domenica.mattina {
+            background-color: #ffecb3;
+        }
+
+        .calendar td.domenica.pomeriggio {
+            background-color: #ffe082;
+        }
+
+        .calendar td.domenica.notte {
+            background-color: #f0d5e6;
+        }
+
+        .calendar td.festivo {
+            background-color: white;
+        }
+
+        .calendar td.festivo .day-header {
+            color: #ff6b6b;
+            font-weight: var(--font-weight-bold);
+        }
+
+        .calendar td.riposo.festivo {
+            background-color: #c8e6c9;
+        }
+
+        .calendar td.riposo.festivo .day-header {
+            color: #2ecc71;
+        }
+
+        .day-header {
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-4);
+        }
+
+        .day-info {
+            font-size: var(--font-size-xs);
+            margin: var(--space-2) 0;
+        }
+
+        .day-festivo-badge {
+            display: inline-block;
+            background-color: rgba(255, 107, 107, 0.8);
+            color: white;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            margin-top: 2px;
+            font-weight: var(--font-weight-bold);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn var(--duration-normal);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--color-surface);
+            padding: var(--space-20);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideUp var(--duration-normal);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            margin-bottom: var(--space-16);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: var(--font-size-2xl);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: var(--font-size-2xl);
+            cursor: pointer;
+            color: var(--color-text-secondary);
+        }
+
+        .close-btn:hover {
+            color: var(--color-text);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: var(--space-12);
+            margin-top: var(--space-20);
+            justify-content: flex-end;
+        }
+
+        .month-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-20);
+        }
+
+        .month-nav button {
+            padding: var(--space-8) var(--space-16);
+            background-color: var(--color-secondary);
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: var(--font-weight-medium);
+            transition: background-color var(--duration-fast);
+        }
+
+        .month-nav button:hover {
+            background-color: var(--color-secondary-hover);
+        }
+
+        .month-nav h2 {
+            margin: 0;
+            flex: 1;
+            text-align: center;
+            font-size: var(--font-size-2xl);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-12);
+            margin-bottom: var(--space-20);
+        }
+
+        .summary-item {
+            background-color: var(--color-secondary);
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+        }
+
+        .summary-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+        }
+
+        .summary-value {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-top: var(--space-4);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+        }
+
+        @media (max-width: 480px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar td {
+                min-height: 50px;
+                padding: var(--space-2);
+                font-size: 10px;
+                height: auto;
+            }
+
+            header h1 {
+                font-size: var(--font-size-xl);
+            }
+
+            .calendar th {
+                padding: var(--space-6);
+                font-size: var(--font-size-xs);
+            }
+
+            .tab-content {
+                padding: var(--space-8);
+            }
+
+            .card {
+                padding: var(--space-12);
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+                border-radius: var(--radius-base);
+            }
+
+            .breakdown-table th,
+            .breakdown-table td {
+                padding: var(--space-8);
+                font-size: var(--font-size-xs);
+            }
+        }
+
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--space-20);
+        }
+
+        .breakdown-table th,
+        .breakdown-table td {
+            padding: var(--space-12);
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .breakdown-table th {
+            background-color: var(--color-secondary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .breakdown-table tr:hover {
+            background-color: var(--color-secondary-hover);
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-bold {
+            font-weight: var(--font-weight-bold);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--space-16);
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--color-border);
+            margin: var(--space-20) 0;
+        }
+
+        .alert {
+            padding: var(--space-12);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-16);
+        }
+
+        .alert-info {
+            background-color: var(--color-bg-8);
+            color: var(--color-primary);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .alert-success {
+            background-color: var(--color-bg-3);
+            color: var(--color-success);
+            border-left: 4px solid var(--color-success);
+        }
+
+        .flex {
+            display: flex;
+            gap: var(--space-8);
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Gestione Turni - Guardia Particolata Giurata</h1>
+            <p style="margin: var(--space-8) 0 0 0; opacity: 0.9;">Iolandino - Securpol</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab-btn" onclick="switchTab('calendar')">📅 Calendario</button>
+            <button class="tab-btn" onclick="switchTab('profilo')">👤 Profilo</button>
+            <button class="tab-btn" onclick="switchTab('config')">⚙️ Configurazione</button>
+        </div>
+
+        <!-- TAB DASHBOARD -->
+        <div id="dashboard" class="tab-content active">
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+                <div class="card">
+                    <h3>📅 Turno Oggi</h3>
+                    <div class="stat-value" id="todayShift">-</div>
+                    <div class="stat-label">Prossimo turno il <span id="nextShiftDate">-</span></div>
+                </div>
+                <div class="card">
+                    <h3>🟢 Prossimo Riposo</h3>
+                    <div class="stat-value" id="nextRest">-</div>
+                    <div class="stat-label">Giorni fino al riposo: <span id="daysUntilRest">-</span></div>
+                </div>
+                <div class="card">
+                    <h3>⏱️ Ore Lavorate</h3>
+                    <div class="stat-value" id="hoursWorked">0h</div>
+                    <div class="stat-label">Questo mese</div>
+                </div>
+                <div class="card">
+                    <h3>⏰ Straordinari</h3>
+                    <div class="stat-value" id="overtimeHours">0h</div>
+                    <div class="stat-label">Accumulati</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-20);">
+                <h2>Riepilogo Economico Mese</h2>
+                <div class="two-col">                <div class="card">
+                    <h3>💰 Competenze</h3>
+                    <table class="breakdown-table" style="margin: 0;">
+                        <tr>
+                            <td>Ore ordinarie</td>
+                            <td class="text-right" id="comp-ordinarie">0 h</td>
+                        </tr>
+                        <tr>
+                            <td>Paga ordinaria</td>
+                            <td class="text-right" id="comp-paga-ord">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Straordinari</td>
+                            <td class="text-right" id="comp-straord-h">0 h</td>
+                        </tr>
+                        <tr>
+                            <td>Paga straordinari</td>
+                            <td class="text-right" id="comp-straord-paga">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Straordinari Notturni (+30%)</td>
+                            <td class="text-right" id="comp-straord-nott-30">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Straordinari Festivi (+50%)</td>
+                            <td class="text-right" id="comp-straord-fest-50">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Straordinari Not.Fest. (+60%)</td>
+                            <td class="text-right" id="comp-straord-nottfest-60">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Indennità notte</td>
+                            <td class="text-right" id="comp-ind-notte">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Indennità domenica</td>
+                            <td class="text-right" id="comp-ind-dom">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>Maggiorazione Festivo</td>
+                            <td class="text-right" id="comp-mag-festivo">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>ROL goduti</td>
+                            <td class="text-right" id="comp-rol">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>13ª Mensilità (Tredicesima)</td>
+                            <td class="text-right" id="comp-13">€ 0,00</td>
+                        </tr>
+                        <tr>
+                            <td>14ª Mensilità (Quattordicesima)</td>
+                            <td class="text-right" id="comp-14">€ 0,00</td>
+                        </tr>
+                            <tr class="text-bold">
+                                <td>TOTALE LORDO</td>
+                                <td class="text-right" id="total-lordo">€ 0,00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="card">
+                        <h3>📉 Trattenute</h3>
+                        <table class="breakdown-table" style="margin: 0;">
+                            <tr>
+                                <td>IRPEF</td>
+                                <td class="text-right" id="trat-irpef">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>INPS</td>
+                                <td class="text-right" id="trat-inps">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>FASIV</td>
+                                <td class="text-right" id="trat-fasiv">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>FONTE</td>
+                                <td class="text-right" id="trat-fonte">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>COASCO</td>
+                                <td class="text-right" id="trat-coasco">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>Add. Regionale</td>
+                                <td class="text-right" id="trat-add-reg">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>Add. Comunale</td>
+                                <td class="text-right" id="trat-add-com">€ 0,00</td>
+                            </tr>
+                            <tr>
+                                <td>Rata Prestito</td>
+                                <td class="text-right" id="trat-prestito">€ 0,00</td>
+                            </tr>
+                            <tr class="text-bold">
+                                <td>TOTALE TRATTENUTE</td>
+                                <td class="text-right" id="total-trat">€ 0,00</td>
+                            </tr>
+                            <tr style="background-color: var(--color-bg-3); font-weight: bold;">
+                                <td>NETTO MENSILE</td>
+                                <td class="text-right" id="total-netto">€ 0,00</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-20);">
+                <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                    <div class="card">
+                        <h3>📋 Ferie</h3>
+                        <div class="stat-value" id="ferieDisp">0</div>
+                        <div class="stat-label">giorni disponibili</div>
+                        <div style="margin-top: var(--space-8); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            Utilizzati: <span id="ferieUsed">0</span> gg
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>📌 ROL</h3>
+                        <div class="stat-value" id="rolDisp">0</div>
+                        <div class="stat-label">ore disponibili</div>
+                        <div style="margin-top: var(--space-8); font-size: var(--font-size-sm); color: var(--color-text-secondary);">
+                            Utilizzate: <span id="rolUsed">0</span> h
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB PROFILO -->
+        <div id="profilo" class="tab-content">
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <div class="card">
+                    <h3>🏢 Dati Azienda</h3>
+                    <div class="form-group">
+                        <label>Ragione Sociale</label>
+                        <input type="text" id="profilo-azienda-nome" placeholder="es. Securpol S.p.A.">
+                    </div>
+                    <div class="form-group">
+                        <label>Ente/Cliente di Servizio</label>
+                        <input type="text" id="profilo-ente-servizio" placeholder="es. Municipalità di Napoli">
+                    </div>
+                    <div class="form-group">
+                        <label>Indirizzo</label>
+                        <input type="text" id="profilo-azienda-indirizzo" placeholder="indirizzo azienda">
+                    </div>
+                    <div class="form-group">
+                        <label>Telefono</label>
+                        <input type="text" id="profilo-azienda-tel" placeholder="+39 081 ...">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Dati Lavorativi</h3>
+                    <div class="form-group">
+                        <label>Data Assunzione</label>
+                        <input type="date" id="profilo-data-assunzione">
+                    </div>
+                    <div class="form-group">
+                        <label>Livello CCNL</label>
+                        <select id="profilo-livello">
+                            <option value="">-- Seleziona --</option>
+                            <option value="1">Livello 1</option>
+                            <option value="2">Livello 2</option>
+                            <option value="3">Livello 3</option>
+                            <option value="4">Livello 4</option>
+                            <option value="5">Livello 5</option>
+                            <option value="6">Livello 6</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Anzianità Iniziale (anni)</label>
+                        <input type="number" id="profilo-anzianita-iniziale" value="0" step="0.5" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Scatti di Anzianità</label>
+                        <input type="number" id="profilo-scatti" value="0" step="1" min="0">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔄 Cambio Appalto</h3>
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="profilo-cambio-appalto-check">
+                            Subentro d'appalto
+                        </label>
+                    </div>
+                    <div id="profilo-cambio-appalto-fields" style="display: none;">
+                        <div class="form-group">
+                            <label>Data Cambio Appalto</label>
+                            <input type="date" id="profilo-cambio-appalto-data">
+                        </div>
+                        <div class="form-group">
+                            <label>Azienda Precedente</label>
+                            <input type="text" id="profilo-azienda-precedente" placeholder="nome azienda uscente">
+                        </div>
+                        <div class="form-group">
+                            <label>Note sul Cambio Appalto</label>
+                            <textarea id="profilo-cambio-appalto-note" placeholder="es. Continuità occupazionale mantenuta, livello e anzianità conservati..." style="height: 60px;"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-20); text-align: center;">
+                <button class="btn btn-primary" onclick="saveProfiloData()">💾 Salva Profilo</button>
+                <button class="btn btn-secondary" style="margin-left: var(--space-12);" onclick="resetProfilo()">🔄 Ripristina</button>
+            </div>
+
+            <!-- RIQUADRO DASHBOARD PROFILO -->
+            <div style="margin-top: var(--space-20);">
+                <h2>📌 Anteprima Dashboard</h2>
+                <div class="card" style="background: linear-gradient(135deg, rgba(50, 184, 198, 0.1) 0%, rgba(33, 128, 141, 0.05) 100%); border: 2px solid var(--color-primary);">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-16);">
+                        <div>
+                            <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: var(--space-4);">Azienda</div>
+                            <div style="font-size: var(--font-size-lg); font-weight: bold;" id="preview-azienda">-</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-top: var(--space-4);" id="preview-ente">-</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: var(--space-4);">Anzianità</div>
+                            <div style="font-size: var(--font-size-lg); font-weight: bold; color: var(--color-primary);" id="preview-anzianita">0 anni</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-top: var(--space-4);" id="preview-scatti">-</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: var(--space-4);">Livello</div>
+                            <div style="font-size: var(--font-size-lg); font-weight: bold;" id="preview-livello">-</div>
+                            <div style="font-size: var(--font-size-sm); color: var(--color-text-secondary); margin-top: var(--space-4);" id="preview-dal">Dal -</div>
+                        </div>
+                        <div id="preview-cambio-appalto-section" style="display: none;">
+                            <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary); text-transform: uppercase; margin-bottom: var(--space-4);">🔄 Cambio Appalto</div>
+                            <div style="font-size: var(--font-size-sm); padding: var(--space-8); background-color: var(--color-bg-3); border-left: 3px solid var(--color-success); border-radius: var(--radius-base);">
+                                <div style="margin-bottom: var(--space-4);" id="preview-cambio-info">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CALENDARIO -->
+        <div id="calendar" class="tab-content">
+            <div class="month-nav">
+                <button onclick="prevMonth()">← Mese Precedente</button>
+                <h2 id="monthTitle">Dicembre 2025</h2>
+                <button onclick="nextMonth()">Mese Successivo →</button>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="calendar" id="calendarTable"></table>
+            </div>
+
+            <div class="card">
+                <h3>Legenda Turni</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: var(--space-16);">
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #fff9c4; border: 1px solid #ccc; border-radius: 3px;"></span> Mattina (07-15)</div>
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #ffe0b2; border: 1px solid #ccc; border-radius: 3px;"></span> Pomeriggio (15-23)</div>
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #e1bee7; border: 1px solid #ccc; border-radius: 3px;"></span> Notte (23-07)</div>
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #c8e6c9; border: 1px solid #ccc; border-radius: 3px;"></span> Riposo</div>
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #b3e5fc; border: 1px solid #ccc; border-radius: 3px;"></span> Ferie</div>
+                    <div><span style="display: inline-block; width: 20px; height: 20px; background-color: #f8bbd0; border: 1px solid #ccc; border-radius: 3px;"></span> ROL</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB CONFIGURAZIONE -->
+        <div id="config" class="tab-content">
+            <div class="alert alert-info">
+                <strong>ℹ️ Configurazione Personalizzata</strong><br>
+                Modifica qui tutti i parametri per adattarli alle tue esigenze contrattuali. I cambiamenti si applicano immediatamente ai calcoli.
+            </div>
+
+            <div class="config-grid">                    <div class="card">
+                        <h3>💼 Dati Personali</h3>
+                        <div class="form-group">
+                            <label>Nome Completo</label>
+                            <input type="text" id="config-name" placeholder="Iolandino">
+                        </div>
+                        <div class="form-group">
+                            <label>Azienda</label>
+                            <input type="text" id="config-company" placeholder="Securpol" value="Securpol">
+                        </div>                    <div class="form-group">
+                        <label>Prossimo Riposo (data)</label>
+                        <input type="date" id="config-first-rest" value="2025-12-05">
+                    </div>
+                    <div class="form-group">
+                        <label>Maggiorazione Festivo (%)</label>
+                        <input type="number" id="config-mag-festivo" value="30" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>14ª Mensilità - Modalità Retribuzione</label>
+                        <select id="config-mode-14">
+                            <option value="mensile">Rata Mensile (distribuita 12 mesi)</option>
+                            <option value="luglio">Unica Soluzione (Luglio)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Accumulo Mensilità</h3>
+                    <div id="mensilita-breakdown" style="font-size: var(--font-size-sm);">
+                        <div style="margin-bottom: var(--space-12);">
+                            <strong>13ª Mensilità (Tredicesima)</strong><br>
+                            <div style="margin-top: var(--space-8); padding: var(--space-8); background-color: var(--color-secondary); border-radius: var(--radius-base);">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                                    <div>
+                                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Maturazione mensile</div>
+                                        <div id="mensilita-13-monthly">€ 0,00</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Totale a Dicembre</div>
+                                        <div id="mensilita-13-total" style="color: var(--color-primary); font-weight: bold;">€ 0,00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <strong>14ª Mensilità (Quattordicesima)</strong><br>
+                            <div style="margin-top: var(--space-8); padding: var(--space-8); background-color: var(--color-bg-2); border-radius: var(--radius-base);">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8);">
+                                    <div>
+                                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Maturazione mensile</div>
+                                        <div id="mensilita-14-monthly">€ 0,00</div>
+                                    </div>
+                                    <div id="mensilita-14-info">
+                                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Rata Mensile</div>
+                                        <div id="mensilita-14-total" style="color: var(--color-primary); font-weight: bold;">€ 0,00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>⏰ Orari Turni Standard</h3>
+                    <div class="form-group">
+                        <label>Turno Mattina Inizio</label>
+                        <input type="time" id="turno-mattina-start" value="07:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Turno Mattina Fine</label>
+                        <input type="time" id="turno-mattina-end" value="15:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Turno Pomeriggio Inizio</label>
+                        <input type="time" id="turno-pomeriggio-start" value="15:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Turno Pomeriggio Fine</label>
+                        <input type="time" id="turno-pomeriggio-end" value="23:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Turno Notte Inizio</label>
+                        <input type="time" id="turno-notte-start" value="23:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Turno Notte Fine</label>
+                        <input type="time" id="turno-notte-end" value="07:00">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 Tariffe Orarie</h3>
+                    <div class="form-group">
+                        <label>Paga Ordinaria (€/ora)</label>
+                        <input type="number" id="config-paga-base" value="8.76" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Straordinario (€/ora)</label>
+                        <input type="number" id="config-paga-straord" value="11.39" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Ore Ordinarie per Giorno</label>
+                        <input type="number" id="config-ore-ordinarie" value="7" step="0.5">
+                    </div>
+                    <div class="form-group">
+                        <label>Soglia Straordinario (ore/giorno)</label>
+                        <input type="number" id="config-soglia-straord" value="7" step="0.5">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🌙 Indennità Notturne</h3>
+                    <div class="form-group">
+                        <label>Indennità Notte SNPF (€/giorno)</label>
+                        <input type="number" id="config-ind-snpf" value="4.18" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Indennità Notte SNZS (€/giorno)</label>
+                        <input type="number" id="config-ind-snzs" value="5.61" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Indennità Domenica (€/ora)</label>
+                        <input type="number" id="config-ind-domenica" value="0.71" step="0.01">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Giorni e Permessi</h3>
+                    <div class="form-group">
+                        <label>Ferie Annuali (giorni)</label>
+                        <input type="number" id="config-ferie-annue" value="26">
+                    </div>
+                    <div class="form-group">
+                        <label>ROL Mensili (ore)</label>
+                        <input type="number" id="config-rol-mensili" value="8.66" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Ciclo Lavoro-Riposo</label>
+                        <input type="text" id="config-ciclo" value="5+1" placeholder="5+1">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Trattenute (percentuali)</h3>
+                    <div class="form-group">
+                        <label>INPS (%)</label>
+                        <input type="number" id="config-inps" value="9.19" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>IRPEF (€ stima mensile)</label>
+                        <input type="number" id="config-irpef" value="103" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>FASIV (%)</label>
+                        <input type="number" id="config-fasiv" value="0.5" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>FONTE (%)</label>
+                        <input type="number" id="config-fonte" value="2" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>COASCO (%)</label>
+                        <input type="number" id="config-coasco" value="1.5" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Addizionale Regionale (€)</label>
+                        <input type="number" id="config-add-reg" value="30" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Addizionale Comunale (€)</label>
+                        <input type="number" id="config-add-com" value="47" step="1">
+                    </div>
+                    <div class="form-group">
+                        <label>Rata Prestito (€)</label>
+                        <input type="number" id="config-rata-prestito" value="66" step="1">
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>14ª Mensilità</h3>
+                    <div class="form-group">
+                        <label>Quota Mensile (€)</label>
+                        <input type="number" id="config-14mensilita" value="126.30" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-20); text-align: center;">
+                <button class="btn btn-primary" onclick="saveConfig()">💾 Salva Configurazione</button>
+                <button class="btn btn-secondary" style="margin-left: var(--space-12);" onclick="resetConfig()">🔄 Ripristina Valori Originali</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TURNO -->
+    <div id="turnModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Gestisci Turno</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="form-group">
+                <label>Data</label>
+                <input type="date" id="modal-date" readonly>
+            </div>
+            <div class="form-group">
+                <label>Tipo Turno</label>
+                <select id="modal-tipo" onchange="updateModalFields(this.value); calculateOreServizio(); updateStraordClassification();">
+                    <option value="">-- Seleziona --</option>
+                    <option value="mattina">🌅 Mattina</option>
+                    <option value="pomeriggio">🌇 Pomeriggio</option>
+                    <option value="notte">🌙 Notte</option>
+                    <option value="riposo">🟢 Riposo</option>
+                    <option value="ferie">💙 Ferie</option>
+                    <option value="rol">💗 ROL</option>
+                </select>
+                <small style="color: var(--color-text-secondary); margin-top: 4px; display: block;">Inserisci gli orari personalizzati per questo turno</small>
+            </div>
+            <div class="form-group" id="group-orari" style="display:none;">
+                <label>Orario Inizio Servizio</label>
+                <input type="time" id="modal-ora-inizio" value="07:00" onchange="calculateOreServizio(); updateStraordClassification();">
+                <small style="color: var(--color-text-secondary); margin-top: 4px; display: block;">Lascia vuoto per usare gli orari standard</small>
+            </div>
+            <div class="form-group" id="group-orari-fine" style="display:none;">
+                <label>Orario Fine Servizio</label>
+                <input type="time" id="modal-ora-fine" value="15:00" onchange="calculateOreServizio(); updateStraordClassification();">
+                <small style="color: var(--color-text-secondary); margin-top: 4px; display: block;">Lascia vuoto per usare gli orari standard</small>
+            </div>
+            <div class="form-group" id="group-ore-calc" style="display:none;">
+                <label>Ore Calcolate (Automatiche)</label>
+                <div style="padding: var(--space-12); background-color: var(--color-secondary); border-radius: var(--radius-base);">
+                    <div style="margin-bottom: var(--space-8);">
+                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Ore ordinarie</div>
+                        <div style="font-size: var(--font-size-lg); font-weight: bold;" id="modal-ore-ordinarie">0 h</div>
+                    </div>
+                    <div>
+                        <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Ore straordinario</div>
+                        <div style="font-size: var(--font-size-lg); font-weight: bold; color: var(--color-warning);" id="modal-ore-straord">0 h</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="group-indennita" style="display:none;">
+                <label>Tipo Indennità Notte</label>
+                <select id="modal-indennita">
+                    <option value="snpf">SNPF (€4,18/gg)</option>
+                    <option value="snzs">SNZS (€5,61/gg)</option>
+                </select>
+            </div>
+            <div class="form-group" id="group-festivo" style="display:none;">
+                <label style="display: flex; align-items: center; gap: 8px;">
+                    <input type="checkbox" id="modal-festivo">
+                    Giorno Festivo
+                </label>
+                <small style="color: var(--color-text-secondary);">Applica maggiorazione festiva al compenso</small>
+            </div>
+            <div class="form-group" id="group-straord-type" style="display:none;">
+                <label>Classificazione Straordinario (Automatica)</label>
+                <div id="straord-info" style="padding: var(--space-12); background-color: var(--color-bg-4); border-radius: var(--radius-base); margin-bottom: var(--space-12); font-size: var(--font-size-sm);">
+                    <div id="straord-classification">Nessuno straordinario rilevato</div>
+                </div>
+                <select id="modal-straord-type" style="display:none;">
+                    <option value="feriale">Feriale (+15%)</option>
+                    <option value="notturno">Notturno (+30%)</option>
+                    <option value="festivo">Festivo (+50%)</option>
+                    <option value="nottfestivo">Notturno Festivo (+60%)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Postazione Assegnata</label>
+                <input type="text" id="modal-postazione" placeholder="es. Portineria, Pattuglia, Ingresso Nord">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Annulla</button>
+                <button class="btn btn-primary" onclick="saveTurn()">Salva Turno</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUTTON EXPORT PDF - MOBILE BOTTOM -->
+    <div style="position: fixed; bottom: env(safe-area-inset-bottom, 0); right: 0; left: 0; z-index: 999; padding: var(--space-12); background: linear-gradient(to top, var(--color-background), transparent);">
+        <button class="btn btn-primary" onclick="exportTurnsToPDF()" style="width: 100%; border-radius: var(--radius-base); padding: var(--space-12) var(--space-16); box-shadow: var(--shadow-md);">
+            📥 Esporta PDF
+        </button>
+    </div>
+
+    <script>
+        // STATO APP
+        let currentMonth = new Date(2025, 11); // Dicembre 2025
+        let turns = {};
+        let config = {
+            name: 'Iolandino',
+            company: 'Securpol',
+            firstRestDate: new Date(2025, 11, 5),
+            pagaBase: 8.76,
+            pagaStraord: 11.39,
+            oreOrdinarie: 7,
+            sogliaStraord: 7,
+            indSnpf: 4.18,
+            indSnzs: 5.61,
+            indDomenica: 0.71,
+            ferieAnnue: 26,
+            rolMensili: 8.66,
+            inps: 9.19,
+            irpef: 103,
+            fasiv: 0.5,
+            fonte: 2,
+            coasco: 1.5,
+            addReg: 30,
+            addCom: 47,
+            rataPrestito: 66,
+            mensilita14: 126.30,
+            mode14: 'mensile',
+            magFestivo: 30,
+            turnoMattStart: '07:00',
+            turnoMattEnd: '15:00',
+            turnoPomStart: '15:00',
+            turnoPomEnd: '23:00',
+            turnoNottStart: '23:00',
+            turnoNottEnd: '07:00',
+            // Dati Profilo
+            aziendaNome: 'Securpol',
+            enteServizio: '',
+            aziendaIndirizzo: '',
+            aziendaTel: '',
+            dataAssunzione: new Date(2025, 11, 4),
+            livello: '1',
+            anzianitaIniziale: 0,
+            scatti: 0,
+            cambioAppaltoCheck: false,
+            cambioAppaltoData: null,
+            aziendaPrecedente: '',
+            cambioAppaltoNote: ''
+        };
+
+        // FESTIVITÀ NAZIONALI E RELIGIOSE
+        const festivitaNazionali = [
+            { month: 1, day: 1, nome: 'Capodanno' },
+            { month: 1, day: 6, nome: 'Epifania' },
+            { month: 4, day: 25, nome: 'Liberazione' },
+            { month: 5, day: 1, nome: 'Festa del Lavoro' },
+            { month: 6, day: 2, nome: 'Repubblica' },
+            { month: 8, day: 15, nome: 'Ferragosto' },
+            { month: 11, day: 1, nome: 'Ognissanti' },
+            { month: 12, day: 8, nome: 'Immacolata' },
+            { month: 12, day: 25, nome: 'Natale' },
+            { month: 12, day: 26, nome: 'Santo Stefano' }
+        ];
+
+        function isPasqua(date) {
+            const year = date.getFullYear();
+            const a = year % 19;
+            const b = Math.floor(year / 100);
+            const c = year % 100;
+            const d = Math.floor(b / 4);
+            const e = b % 4;
+            const f = Math.floor((b + 8) / 25);
+            const g = Math.floor((b - f + 1) / 3);
+            const h = (19 * a + b - d - g + 15) % 30;
+            const i = Math.floor(c / 4);
+            const k = c % 4;
+            const l = (32 + 2 * e + 2 * i - h - k) % 7;
+            const m = Math.floor((a + 11 * h + 22 * l) / 451);
+            const month = Math.floor((h + l - 7 * m + 114) / 31);
+            const day = ((h + l - 7 * m + 114) % 31) + 1;
+            return month === date.getMonth() + 1 && day === date.getDate();
+        }
+
+        function getLunediPasqua(year) {
+            const a = year % 19;
+            const b = Math.floor(year / 100);
+            const c = year % 100;
+            const d = Math.floor(b / 4);
+            const e = b % 4;
+            const f = Math.floor((b + 8) / 25);
+            const g = Math.floor((b - f + 1) / 3);
+            const h = (19 * a + b - d - g + 15) % 30;
+            const i = Math.floor(c / 4);
+            const k = c % 4;
+            const l = (32 + 2 * e + 2 * i - h - k) % 7;
+            const m = Math.floor((a + 11 * h + 22 * l) / 451);
+            const month = Math.floor((h + l - 7 * m + 114) / 31);
+            const day = ((h + l - 7 * m + 114) % 31) + 1;
+            const pasqua = new Date(year, month - 1, day);
+            const lunedi = new Date(pasqua);
+            lunedi.setDate(lunedi.getDate() + 1);
+            return lunedi;
+        }
+
+        function isFestivo(date) {
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            
+            // Controllo festività fisse
+            for (const fest of festivitaNazionali) {
+                if (fest.month === month && fest.day === day) return fest.nome;
+            }
+            
+            // Controllo Lunedì di Pasqua
+            const lunediPasqua = getLunediPasqua(year);
+            if (date.getDate() === lunediPasqua.getDate() && date.getMonth() === lunediPasqua.getMonth()) {
+                return 'Lunedì Pasqua';
+            }
+            
+            return false;
+        }
+
+        let selectedDate = null;
+
+        // LOAD CONFIG DA LOCALSTORAGE (se disponibile)
+        function loadConfig() {
+            try {
+                const saved = localStorage.getItem('gpgConfig');
+                if (saved) config = { ...config, ...JSON.parse(saved) };
+                const savedTurns = localStorage.getItem('gpgTurns');
+                if (savedTurns) turns = JSON.parse(savedTurns);
+            } catch (e) {
+                console.log('LocalStorage non disponibile o vuoto');
+            }
+        }
+
+        // SAVE CONFIG
+        function saveConfig() {
+            try {
+                // Leggi i valori dagli input
+                config.name = document.getElementById('config-name').value;
+                config.company = document.getElementById('config-company').value;
+                config.pagaBase = parseFloat(document.getElementById('config-paga-base').value);
+                config.pagaStraord = parseFloat(document.getElementById('config-paga-straord').value);
+                config.oreOrdinarie = parseFloat(document.getElementById('config-ore-ordinarie').value);
+                config.sogliaStraord = parseFloat(document.getElementById('config-soglia-straord').value);
+                config.indSnpf = parseFloat(document.getElementById('config-ind-snpf').value);
+                config.indSnzs = parseFloat(document.getElementById('config-ind-snzs').value);
+                config.indDomenica = parseFloat(document.getElementById('config-ind-domenica').value);
+                config.ferieAnnue = parseInt(document.getElementById('config-ferie-annue').value);
+                config.rolMensili = parseFloat(document.getElementById('config-rol-mensili').value);
+                config.inps = parseFloat(document.getElementById('config-inps').value);
+                config.irpef = parseFloat(document.getElementById('config-irpef').value);
+                config.fasiv = parseFloat(document.getElementById('config-fasiv').value);
+                config.fonte = parseFloat(document.getElementById('config-fonte').value);
+                config.coasco = parseFloat(document.getElementById('config-coasco').value);
+                config.addReg = parseFloat(document.getElementById('config-add-reg').value);
+                config.addCom = parseFloat(document.getElementById('config-add-com').value);
+                config.rataPrestito = parseFloat(document.getElementById('config-rata-prestito').value);
+                config.mensilita14 = parseFloat(document.getElementById('config-14mensilita').value);
+                config.magFestivo = parseFloat(document.getElementById('config-mag-festivo').value);
+                config.mode14 = document.getElementById('config-mode-14').value;
+                config.turnoMattStart = document.getElementById('turno-mattina-start').value;
+                config.turnoMattEnd = document.getElementById('turno-mattina-end').value;
+                config.turnoPomStart = document.getElementById('turno-pomeriggio-start').value;
+                config.turnoPomEnd = document.getElementById('turno-pomeriggio-end').value;
+                config.turnoNottStart = document.getElementById('turno-notte-start').value;
+                config.turnoNottEnd = document.getElementById('turno-notte-end').value;
+                config.firstRestDate = new Date(document.getElementById('config-first-rest').value);
+
+                localStorage.setItem('gpgConfig', JSON.stringify(config));
+                alert('✅ Configurazione salvata con successo!');
+                updateDashboard();
+                renderCalendar();
+            } catch (e) {
+                alert('❌ Errore nel salvataggio: ' + e.message);
+            }
+        }
+
+        function resetConfig() {
+            localStorage.removeItem('gpgConfig');
+            location.reload();
+        }
+
+        // SWITCH TAB
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tab === 'calendar') renderCalendar();
+            if (tab === 'profilo') populateProfiloForm();
+            if (tab === 'config') populateConfigForm();
+        }
+
+        function populateProfiloForm() {
+            document.getElementById('profilo-azienda-nome').value = config.aziendaNome;
+            document.getElementById('profilo-ente-servizio').value = config.enteServizio;
+            document.getElementById('profilo-azienda-indirizzo').value = config.aziendaIndirizzo;
+            document.getElementById('profilo-azienda-tel').value = config.aziendaTel;
+            document.getElementById('profilo-data-assunzione').value = config.dataAssunzione.toISOString().split('T')[0];
+            document.getElementById('profilo-livello').value = config.livello;
+            document.getElementById('profilo-anzianita-iniziale').value = config.anzianitaIniziale;
+            document.getElementById('profilo-scatti').value = config.scatti;
+            document.getElementById('profilo-cambio-appalto-check').checked = config.cambioAppaltoCheck;
+            document.getElementById('profilo-cambio-appalto-fields').style.display = config.cambioAppaltoCheck ? 'block' : 'none';
+            document.getElementById('profilo-cambio-appalto-data').value = config.cambioAppaltoData ? new Date(config.cambioAppaltoData).toISOString().split('T')[0] : '';
+            document.getElementById('profilo-azienda-precedente').value = config.aziendaPrecedente;
+            document.getElementById('profilo-cambio-appalto-note').value = config.cambioAppaltoNote;
+            updateProfiloPreview();
+
+            // Event listener per checkbox cambio appalto
+            document.getElementById('profilo-cambio-appalto-check').addEventListener('change', function() {
+                document.getElementById('profilo-cambio-appalto-fields').style.display = this.checked ? 'block' : 'none';
+            });
+        }
+
+        function saveProfiloData() {
+            try {
+                config.aziendaNome = document.getElementById('profilo-azienda-nome').value;
+                config.enteServizio = document.getElementById('profilo-ente-servizio').value;
+                config.aziendaIndirizzo = document.getElementById('profilo-azienda-indirizzo').value;
+                config.aziendaTel = document.getElementById('profilo-azienda-tel').value;
+                config.dataAssunzione = new Date(document.getElementById('profilo-data-assunzione').value);
+                config.livello = document.getElementById('profilo-livello').value;
+                config.anzianitaIniziale = parseFloat(document.getElementById('profilo-anzianita-iniziale').value);
+                config.scatti = parseInt(document.getElementById('profilo-scatti').value);
+                config.cambioAppaltoCheck = document.getElementById('profilo-cambio-appalto-check').checked;
+                config.cambioAppaltoData = config.cambioAppaltoCheck ? document.getElementById('profilo-cambio-appalto-data').value : null;
+                config.aziendaPrecedente = document.getElementById('profilo-azienda-precedente').value;
+                config.cambioAppaltoNote = document.getElementById('profilo-cambio-appalto-note').value;
+
+                localStorage.setItem('gpgConfig', JSON.stringify(config));
+                updateProfiloPreview();
+                alert('✅ Profilo salvato con successo!');
+            } catch (e) {
+                alert('❌ Errore nel salvataggio: ' + e.message);
+            }
+        }
+
+        function resetProfilo() {
+            config.aziendaNome = 'Securpol';
+            config.enteServizio = '';
+            config.aziendaIndirizzo = '';
+            config.aziendaTel = '';
+            config.dataAssunzione = new Date(2025, 11, 4);
+            config.livello = '1';
+            config.anzianitaIniziale = 0;
+            config.scatti = 0;
+            config.cambioAppaltoCheck = false;
+            config.cambioAppaltoData = null;
+            config.aziendaPrecedente = '';
+            config.cambioAppaltoNote = '';
+            localStorage.setItem('gpgConfig', JSON.stringify(config));
+            populateProfiloForm();
+        }
+
+        function updateProfiloPreview() {
+            const now = new Date();
+            const dataAssunzione = new Date(config.dataAssunzione);
+            let years = now.getFullYear() - dataAssunzione.getFullYear();
+            let months = now.getMonth() - dataAssunzione.getMonth();
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            const totalAnzianita = config.anzianitaIniziale + years + (months / 12);
+
+            const livelloText = {
+                '1': 'Guardia Giurata',
+                '2': 'Guardia Senior',
+                '3': 'Caposquadra',
+                '4': 'Responsabile'
+            };
+
+            document.getElementById('preview-azienda').textContent = config.aziendaNome || '-';
+            document.getElementById('preview-ente').textContent = config.enteServizio ? `Presso: ${config.enteServizio}` : '-';
+            document.getElementById('preview-anzianita').textContent = totalAnzianita.toFixed(1) + ' anni';
+            document.getElementById('preview-scatti').textContent = config.scatti > 0 ? `${config.scatti} scatti` : 'Nessuno scatto';
+            document.getElementById('preview-livello').textContent = livelloText[config.livello] || '-';
+            document.getElementById('preview-dal').textContent = `Dal ${dataAssunzione.toLocaleDateString('it-IT')}`;
+
+            if (config.cambioAppaltoCheck) {
+                const cambioDate = new Date(config.cambioAppaltoData);
+                document.getElementById('preview-cambio-appalto-section').style.display = 'block';
+                let cambioDays = Math.floor((now - cambioDate) / (1000 * 60 * 60 * 24));
+                let cambioYears = Math.floor(cambioDays / 365);
+                let cambioDaysRemaining = cambioDays % 365;
+                document.getElementById('preview-cambio-info').innerHTML = `
+                    <strong>${config.aziendaPrecedente}</strong> → <strong>${config.aziendaNome}</strong><br>
+                    <small>${cambioDate.toLocaleDateString('it-IT')} (${cambioYears > 0 ? cambioYears + ' anni, ' : ''}${cambioDaysRemaining} giorni fa)</small>
+                `;
+            } else {
+                document.getElementById('preview-cambio-appalto-section').style.display = 'none';
+            }
+        }
+
+        function populateConfigForm() {
+            document.getElementById('config-name').value = config.name;
+            document.getElementById('config-company').value = config.company;
+            document.getElementById('config-paga-base').value = config.pagaBase;
+            document.getElementById('config-paga-straord').value = config.pagaStraord;
+            document.getElementById('config-ore-ordinarie').value = config.oreOrdinarie;
+            document.getElementById('config-soglia-straord').value = config.sogliaStraord;
+            document.getElementById('config-ind-snpf').value = config.indSnpf;
+            document.getElementById('config-ind-snzs').value = config.indSnzs;
+            document.getElementById('config-ind-domenica').value = config.indDomenica;
+            document.getElementById('config-ferie-annue').value = config.ferieAnnue;
+            document.getElementById('config-rol-mensili').value = config.rolMensili;
+            document.getElementById('config-inps').value = config.inps;
+            document.getElementById('config-irpef').value = config.irpef;
+            document.getElementById('config-fasiv').value = config.fasiv;
+            document.getElementById('config-fonte').value = config.fonte;
+            document.getElementById('config-coasco').value = config.coasco;
+            document.getElementById('config-add-reg').value = config.addReg;
+            document.getElementById('config-add-com').value = config.addCom;
+            document.getElementById('config-rata-prestito').value = config.rataPrestito;
+            document.getElementById('config-14mensilita').value = config.mensilita14;
+            document.getElementById('config-mag-festivo').value = config.magFestivo;
+            document.getElementById('config-mode-14').value = config.mode14 || 'mensile';
+            document.getElementById('turno-mattina-start').value = config.turnoMattStart;
+            document.getElementById('turno-mattina-end').value = config.turnoMattEnd;
+            document.getElementById('turno-pomeriggio-start').value = config.turnoPomStart;
+            document.getElementById('turno-pomeriggio-end').value = config.turnoPomEnd;
+            document.getElementById('turno-notte-start').value = config.turnoNottStart;
+            document.getElementById('turno-notte-end').value = config.turnoNottEnd;
+            document.getElementById('config-first-rest').value = config.firstRestDate.toISOString().split('T')[0];
+        }
+
+        // CALENDAR LOGIC
+        function getDaysInMonth(date) {
+            return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+        }
+
+        function getFirstDayOfMonth(date) {
+            return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+        }
+
+        function getRestDays(month, year) {
+            const restDays = [];
+            const firstRest = new Date(config.firstRestDate);
+            let currentRest = new Date(firstRest);
+
+            // Generiamo i giorni di riposo con ciclo 5+1 (6 giorni totali)
+            // Avanziamo di esattamente 6 giorni per mantenere il ciclo corretto
+            while (currentRest.getFullYear() < year || (currentRest.getFullYear() === year && currentRest.getMonth() <= month)) {
+                if (currentRest.getFullYear() === year && currentRest.getMonth() === month) {
+                    // Non aggiungiamo riposo se è una festività (il riposo è rinviato)
+                    if (!isFestivo(currentRest)) {
+                        restDays.push(currentRest.getDate());
+                    }
+                }
+                // Avanziamo di 6 giorni (ciclo 5 lavoro + 1 riposo)
+                currentRest.setDate(currentRest.getDate() + 6);
+            }
+            return restDays;
+        }
+
+        function renderCalendar() {
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            const daysInMonth = getDaysInMonth(currentMonth);
+            const firstDay = getFirstDayOfMonth(currentMonth);
+            const restDays = getRestDays(month, year);
+
+            document.getElementById('monthTitle').textContent = 
+                new Date(year, month).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+
+            const table = document.getElementById('calendarTable');
+            table.innerHTML = '';
+
+            // Header
+            const headerRow = table.createTHead().insertRow();
+            const days = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
+            days.forEach(day => {
+                const th = document.createElement('th');
+                th.textContent = day;
+                headerRow.appendChild(th);
+            });
+
+            // Body
+            const tbody = table.createTBody();
+            let row = tbody.insertRow();
+            let dayCell = 0;
+
+            // Calcola il primo giorno della settimana partendo da lunedì (0 = lunedì)
+            let adjustedFirstDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            // Empty cells before month starts
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                row.insertCell();
+                dayCell++;
+            }
+
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (dayCell === 7) {
+                    row = tbody.insertRow();
+                    dayCell = 0;
+                }
+
+                const cell = row.insertCell();
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const turnData = turns[dateStr];
+                const isRest = restDays.includes(day);
+                const isDomenica = new Date(year, month, day).getDay() === 0;
+                const currentDate = new Date(year, month, day);
+                const festivoNome = isFestivo(currentDate);
+
+                // CSS Classes
+                let classes = [];
+                if (festivoNome) classes.push('festivo');
+                if (isRest && festivoNome) classes.push('riposo');
+                if (isDomenica && !festivoNome && isRest) classes.push('riposo');
+                if (isDomenica && !festivoNome && !isRest && !turnData) classes.push('domenica');
+                if (isRest && !turnData && !festivoNome && !isDomenica) classes.push('riposo');
+                if (turnData) {
+                    classes.push(turnData.tipo);
+                }
+
+                cell.className = classes.join(' ');
+                cell.innerHTML = `<div class="day-header">${day}</div>`;
+
+                if (festivoNome) {
+                    cell.innerHTML += `<div class="day-festivo-badge">🎉 ${festivoNome}</div>`;
+                }
+
+                if (turnData) {
+                    const tipo = turnData.tipo === 'mattina' ? '🌅' : 
+                                 turnData.tipo === 'pomeriggio' ? '🌇' :
+                                 turnData.tipo === 'notte' ? '🌙' :
+                                 turnData.tipo === 'ferie' ? '💙' :
+                                 turnData.tipo === 'rol' ? '💗' : '🟢';
+                    const totalHours = (turnData.ore || 0) + (turnData.straord || 0);
+                    cell.innerHTML += `<div class="day-info">${tipo} ${totalHours.toFixed(1)}h</div>`;
+                    if (turnData.straord > 0) {
+                        const label = turnData.straordType === 'notturno' ? '🌙+30%' :
+                                     turnData.straordType === 'festivo' ? '📅+50%' :
+                                     turnData.straordType === 'nottfestivo' ? '🌙📅+60%' : '+15%';
+                        cell.innerHTML += `<div class="day-info" style="color: var(--color-warning);">+${turnData.straord.toFixed(1)}h ${label}</div>`;
+                    }
+                    if (turnData.festivo) {
+                        cell.innerHTML += `<div class="day-info">📅 Festivo</div>`;
+                    }
+                } else if (festivoNome && !isRest) {
+                    cell.innerHTML += `<div class="day-info">💰 Retribuito</div>`;
+                }
+
+                cell.onclick = () => openTurnModal(dateStr);
+                dayCell++;
+            }
+        }
+
+        function prevMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth.setMonth(currentMonth.getMonth() + 1);
+            renderCalendar();
+        }
+
+        // MODAL LOGIC
+        function openTurnModal(dateStr) {
+            selectedDate = dateStr;
+            const turnData = turns[dateStr] || {};
+            
+            document.getElementById('modal-date').value = dateStr;
+            
+            // Se è un turno esistente, carica i dati
+            if (turnData.tipo) {
+                document.getElementById('modal-tipo').value = turnData.tipo;
+                document.getElementById('modal-ora-inizio').value = turnData.oraInizio || '07:00';
+                document.getElementById('modal-ora-fine').value = turnData.oraFine || '15:00';
+                document.getElementById('modal-indennita').value = turnData.indennita || 'snpf';
+                document.getElementById('modal-straord-type').value = turnData.straordType || 'feriale';
+                document.getElementById('modal-festivo').checked = turnData.festivo || false;
+                document.getElementById('modal-postazione').value = turnData.postazione || '';
+            } else {
+                document.getElementById('modal-tipo').value = '';
+                document.getElementById('modal-ora-inizio').value = '07:00';
+                document.getElementById('modal-ora-fine').value = '15:00';
+                document.getElementById('modal-indennita').value = 'snpf';
+                document.getElementById('modal-straord-type').value = 'feriale';
+                document.getElementById('modal-festivo').checked = false;
+                document.getElementById('modal-postazione').value = '';
+            }
+
+            // Show/hide fields based on type - IMPORTANTE: fai questo DOPO aver impostato i valori
+            const tipo = document.getElementById('modal-tipo').value;
+            if (tipo) {
+                updateModalFields(tipo);
+            }
+
+            document.getElementById('turnModal').classList.add('active');
+        }
+
+        function updateModalFields(tipo) {
+            const isLavoro = tipo === 'mattina' || tipo === 'pomeriggio' || tipo === 'notte';
+            
+            document.getElementById('group-orari').style.display = isLavoro ? 'block' : 'none';
+            document.getElementById('group-orari-fine').style.display = isLavoro ? 'block' : 'none';
+            document.getElementById('group-ore-calc').style.display = isLavoro ? 'block' : 'none';
+            document.getElementById('group-indennita').style.display = tipo === 'notte' ? 'block' : 'none';
+            document.getElementById('group-straord-type').style.display = isLavoro ? 'block' : 'none';
+            
+            const dateObj = new Date(selectedDate);
+            const festivoNome = isFestivo(dateObj);
+            document.getElementById('group-festivo').style.display = isLavoro && festivoNome ? 'block' : 'none';
+            
+            // Imposta gli orari default basati sul tipo di turno
+            if (isLavoro) {
+                if (tipo === 'mattina') {
+                    document.getElementById('modal-ora-inizio').value = config.turnoMattStart;
+                    document.getElementById('modal-ora-fine').value = config.turnoMattEnd;
+                } else if (tipo === 'pomeriggio') {
+                    document.getElementById('modal-ora-inizio').value = config.turnoPomStart;
+                    document.getElementById('modal-ora-fine').value = config.turnoPomEnd;
+                } else if (tipo === 'notte') {
+                    document.getElementById('modal-ora-inizio').value = config.turnoNottStart;
+                    document.getElementById('modal-ora-fine').value = config.turnoNottEnd;
+                }
+                calculateOreServizio();
+                updateStraordClassification();
+            }
+        }
+
+        function timeToMinutes(timeStr) {
+            const [h, m] = timeStr.split(':').map(Number);
+            return h * 60 + m;
+        }
+
+        function calculateOreServizio() {
+            const inizio = document.getElementById('modal-ora-inizio').value;
+            const fine = document.getElementById('modal-ora-fine').value;
+            
+            if (!inizio || !fine) return;
+            
+            let minutesStart = timeToMinutes(inizio);
+            let minutesEnd = timeToMinutes(fine);
+            
+            let totalMinutes;
+            if (minutesEnd > minutesStart) {
+                // Stesso giorno
+                totalMinutes = minutesEnd - minutesStart;
+            } else {
+                // Attraversa la mezzanotte
+                totalMinutes = (24 * 60 - minutesStart) + minutesEnd;
+            }
+            
+            const totalHours = totalMinutes / 60;
+            const oreOrdinarie = Math.min(totalHours, config.oreOrdinarie);
+            const oreStraord = Math.max(0, totalHours - config.oreOrdinarie);
+            
+            document.getElementById('modal-ore-ordinarie').textContent = oreOrdinarie.toFixed(2) + ' h';
+            document.getElementById('modal-ore-straord').textContent = oreStraord.toFixed(2) + ' h';
+        }
+
+        function updateStraordClassification() {
+            const inizio = document.getElementById('modal-ora-inizio').value;
+            const fine = document.getElementById('modal-ora-fine').value;
+            
+            if (!inizio || !fine) return;
+            
+            let minutesStart = timeToMinutes(inizio);
+            let minutesEnd = timeToMinutes(fine);
+            
+            let totalMinutes;
+            if (minutesEnd > minutesStart) {
+                totalMinutes = minutesEnd - minutesStart;
+            } else {
+                totalMinutes = (24 * 60 - minutesStart) + minutesEnd;
+            }
+            
+            const totalHours = totalMinutes / 60;
+            const oreStraord = Math.max(0, totalHours - config.oreOrdinarie);
+            
+            // Auto-classifica straordinario
+            if (oreStraord > 0) {
+                const tipo = document.getElementById('modal-tipo').value;
+                const dateObj = new Date(selectedDate);
+                const isDomenica = dateObj.getDay() === 0;
+                const festivoNome = isFestivo(dateObj);
+                const isNotte = (minutesStart >= 23 * 60 || minutesStart < 7 * 60) || 
+                               (minutesEnd > 23 * 60 || minutesEnd <= 7 * 60);
+                
+                let classification = '';
+                if (festivoNome && isNotte) {
+                    classification = '🌙📅 Straordinario Notturno Festivo (+60%)';
+                    document.getElementById('modal-straord-type').value = 'nottfestivo';
+                } else if (festivoNome || isDomenica) {
+                    classification = '📅 Straordinario Festivo (+50%)';
+                    document.getElementById('modal-straord-type').value = 'festivo';
+                } else if (isNotte || tipo === 'notte') {
+                    classification = '🌙 Straordinario Notturno (+30%)';
+                    document.getElementById('modal-straord-type').value = 'notturno';
+                } else {
+                    classification = '⏱️ Straordinario Feriale (+15%)';
+                    document.getElementById('modal-straord-type').value = 'feriale';
+                }
+                document.getElementById('straord-classification').innerHTML = classification;
+            } else {
+                document.getElementById('straord-classification').innerHTML = 'Nessuno straordinario';
+            }
+        }
+
+        // Event listener per apertura modal
+        // Ora l'onchange è inline nel select HTML, non è necessario aggiungere qui
+
+        function saveTurn() {
+            const tipo = document.getElementById('modal-tipo').value;
+            if (!tipo) {
+                alert('❌ Seleziona un tipo di turno!');
+                return;
+            }
+
+            const isLavoro = tipo === 'mattina' || tipo === 'pomeriggio' || tipo === 'notte';
+            const oraInizio = document.getElementById('modal-ora-inizio').value;
+            const oraFine = document.getElementById('modal-ora-fine').value;
+            
+            if (isLavoro && (!oraInizio || !oraFine)) {
+                alert('❌ Inserisci gli orari di inizio e fine servizio!');
+                return;
+            }
+
+            // Calcola ore dal servizio
+            let ore = 0, straord = 0, straordType = null;
+            if (isLavoro) {
+                const minutesStart = timeToMinutes(oraInizio);
+                const minutesEnd = timeToMinutes(oraFine);
+                
+                let totalMinutes;
+                if (minutesEnd > minutesStart) {
+                    totalMinutes = minutesEnd - minutesStart;
+                } else {
+                    totalMinutes = (24 * 60 - minutesStart) + minutesEnd;
+                }
+                
+                const totalHours = totalMinutes / 60;
+                ore = Math.min(totalHours, config.oreOrdinarie);
+                straord = Math.max(0, totalHours - config.oreOrdinarie);
+                straordType = straord > 0 ? document.getElementById('modal-straord-type').value : null;
+            }
+
+            const turnData = {
+                tipo: tipo,
+                oraInizio: isLavoro ? oraInizio : null,
+                oraFine: isLavoro ? oraFine : null,
+                ore: ore,
+                straord: straord,
+                straordType: straordType,
+                indennita: tipo === 'notte' ? document.getElementById('modal-indennita').value : null,
+                festivo: isLavoro ? document.getElementById('modal-festivo').checked : false,
+                postazione: document.getElementById('modal-postazione').value || ''
+            };
+
+            turns[selectedDate] = turnData;
+            try {
+                localStorage.setItem('gpgTurns', JSON.stringify(turns));
+            } catch (e) {
+                console.log('LocalStorage non disponibile');
+            }
+
+            closeModal();
+            renderCalendar();
+            updateDashboard();
+        }
+
+        function closeModal() {
+            document.getElementById('turnModal').classList.remove('active');
+        }
+
+        // CALCOLI
+        function calculateStats() {
+            let hoursWorked = 0;
+            let overtimeHours = 0;
+            let ferieUsed = 0;
+            let rolUsed = 0;
+            let turns_mattina = 0, turns_pomeriggio = 0, turns_notte = 0;
+            let giorni_domenica_notte = 0;
+            let giorni_notte_snpf = 0, giorni_notte_snzs = 0;
+            let giorni_festivo = 0;
+            let ore_festivo = 0;
+            let ore_straord_nott = 0, ore_straord_fest = 0, ore_straord_nottfest = 0;
+
+            const month = currentMonth.getMonth();
+            const year = currentMonth.getFullYear();
+
+            Object.entries(turns).forEach(([dateStr, data]) => {
+                const [y, m, d] = dateStr.split('-');
+                if (parseInt(m) - 1 === month && parseInt(y) === year) {
+                    if (data.tipo === 'mattina' || data.tipo === 'pomeriggio' || data.tipo === 'notte') {
+                        hoursWorked += data.ore || config.oreOrdinarie;
+                        overtimeHours += data.straord || 0;
+                        
+                        // Conteggio straordinari per tipo
+                        if (data.straord > 0) {
+                            if (data.straordType === 'notturno') ore_straord_nott += data.straord;
+                            else if (data.straordType === 'festivo') ore_straord_fest += data.straord;
+                            else if (data.straordType === 'nottfestivo') ore_straord_nottfest += data.straord;
+                        }
+                        
+                        if (data.festivo) {
+                            giorni_festivo++;
+                            ore_festivo += data.ore || config.oreOrdinarie;
+                        }
+                        
+                        if (data.tipo === 'mattina') turns_mattina++;
+                        else if (data.tipo === 'pomeriggio') turns_pomeriggio++;
+                        else if (data.tipo === 'notte') {
+                            turns_notte++;
+                            if (data.indennita === 'snpf') giorni_notte_snpf++;
+                            else if (data.indennita === 'snzs') giorni_notte_snzs++;
+                            
+                            const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
+                            if (date.getDay() === 0) giorni_domenica_notte++;
+                        }
+                    } else if (data.tipo === 'ferie') {
+                        ferieUsed += 1;
+                    } else if (data.tipo === 'rol') {
+                        rolUsed += data.ore || 1;
+                    }
+                }
+            });
+
+            return {
+                hoursWorked,
+                overtimeHours,
+                ferieUsed,
+                rolUsed,
+                turns_mattina,
+                turns_pomeriggio,
+                turns_notte,
+                giorni_domenica_notte,
+                giorni_notte_snpf,
+                giorni_notte_snzs,
+                giorni_festivo,
+                ore_festivo,
+                ore_straord_nott,
+                ore_straord_fest,
+                ore_straord_nottfest
+            };
+        }
+
+        function updateDashboard() {
+            const stats = calculateStats();
+            console.log('📊 Dashboard Update - Stats:', stats);
+
+            // Competenze
+            const pagaOrdinaria = stats.hoursWorked * config.pagaBase;
+            const pagaStraord = stats.overtimeHours * config.pagaStraord;
+            console.log('💰 Paga Ordinaria:', pagaOrdinaria, '| Straord:', pagaStraord);
+            
+            // Straordinari con maggiorazioni CCNL
+            const pagaStraordNott = stats.ore_straord_nott * config.pagaBase * 1.30;
+            const pagaStraordFest = stats.ore_straord_fest * config.pagaBase * 1.50;
+            const pagaStraordNottFest = stats.ore_straord_nottfest * config.pagaBase * 1.60;
+            console.log('🌙 Straord Nott:', pagaStraordNott, '| Fest:', pagaStraordFest, '| NottFest:', pagaStraordNottFest);
+            
+            const indNotteSNPF = stats.giorni_notte_snpf * config.indSnpf;
+            const indNotteSNZS = stats.giorni_notte_snzs * config.indSnzs;
+            const indNotte = indNotteSNPF + indNotteSNZS;
+            
+            // Domeniche con indennità aggiuntiva per turno notte
+            const oreDomenica = stats.giorni_domenica_notte * config.oreOrdinarie;
+            const indDomenica = oreDomenica * config.indDomenica;
+            
+            // Maggiorazione per giorni festivi
+            const oreFestivo = stats.ore_festivo;
+            const magFestivo = oreFestivo * config.pagaBase * (config.magFestivo / 100);
+            
+            const rolValue = stats.rolUsed * config.pagaBase;
+            
+            // Tredicesima: sempre 1/12 della paga al mese
+            const mensilita13Monthly = (pagaOrdinaria + pagaStraord + indNotte + indDomenica + magFestivo) / 12;
+            const mensilita13Total = mensilita13Monthly;
+            
+            // Quattordicesima: dipende dalla modalità
+            let mensilita14Value = 0;
+            if (config.mode14 === 'luglio') {
+                mensilita14Value = config.mensilita14;
+            } else {
+                mensilita14Value = config.mensilita14;
+            }
+
+            const totLordo = pagaOrdinaria + pagaStraord + pagaStraordNott + pagaStraordFest + pagaStraordNottFest + indNotte + indDomenica + magFestivo + rolValue + mensilita13Total + mensilita14Value;
+
+            // Trattenute
+            const inps = totLordo * (config.inps / 100);
+            const fasiv = totLordo * (config.fasiv / 100);
+            const fonte = totLordo * (config.fonte / 100);
+            const coasco = totLordo * (config.coasco / 100);
+            const tratGeneral = inps + config.irpef + fasiv + fonte + coasco + config.addReg + config.addCom + config.rataPrestito;
+
+            const netto = totLordo - tratGeneral;
+
+            // Update DOM
+            document.getElementById('comp-ordinarie').textContent = stats.hoursWorked.toFixed(1) + ' h';
+            document.getElementById('comp-paga-ord').textContent = '€ ' + pagaOrdinaria.toFixed(2);
+            document.getElementById('comp-straord-h').textContent = stats.overtimeHours.toFixed(1) + ' h';
+            document.getElementById('comp-straord-paga').textContent = '€ ' + pagaStraord.toFixed(2);
+            document.getElementById('comp-straord-nott-30').textContent = '€ ' + pagaStraordNott.toFixed(2);
+            document.getElementById('comp-straord-fest-50').textContent = '€ ' + pagaStraordFest.toFixed(2);
+            document.getElementById('comp-straord-nottfest-60').textContent = '€ ' + pagaStraordNottFest.toFixed(2);
+            document.getElementById('comp-ind-notte').textContent = '€ ' + indNotte.toFixed(2);
+            document.getElementById('comp-ind-dom').textContent = '€ ' + indDomenica.toFixed(2);
+            document.getElementById('comp-mag-festivo').textContent = '€ ' + magFestivo.toFixed(2);
+            document.getElementById('comp-rol').textContent = '€ ' + rolValue.toFixed(2);
+            document.getElementById('comp-13').textContent = '€ ' + mensilita13Total.toFixed(2);
+            document.getElementById('comp-14').textContent = '€ ' + mensilita14Value.toFixed(2);
+            document.getElementById('total-lordo').textContent = '€ ' + totLordo.toFixed(2);
+            
+            // Aggiorna breakdown mensilità
+            document.getElementById('mensilita-13-monthly').textContent = '€ ' + mensilita13Monthly.toFixed(2);
+            document.getElementById('mensilita-13-total').textContent = '€ ' + (mensilita13Monthly * 12).toFixed(2);
+            document.getElementById('mensilita-14-monthly').textContent = '€ ' + (config.mensilita14 / 12).toFixed(2);
+            
+            if (config.mode14 === 'luglio') {
+                document.getElementById('mensilita-14-info').innerHTML = '<div><div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Erogato a Luglio</div><div id="mensilita-14-total" style="color: var(--color-warning); font-weight: bold;">€ ' + config.mensilita14.toFixed(2) + '</div></div>';
+            } else {
+                document.getElementById('mensilita-14-info').innerHTML = '<div><div style="font-size: var(--font-size-xs); color: var(--color-text-secondary);">Rata Mensile</div><div id="mensilita-14-total" style="color: var(--color-primary); font-weight: bold;">€ ' + (config.mensilita14 / 12).toFixed(2) + '</div></div>';
+            }
+
+            document.getElementById('trat-inps').textContent = '€ ' + inps.toFixed(2);
+            document.getElementById('trat-irpef').textContent = '€ ' + config.irpef.toFixed(2);
+            document.getElementById('trat-fasiv').textContent = '€ ' + fasiv.toFixed(2);
+            document.getElementById('trat-fonte').textContent = '€ ' + fonte.toFixed(2);
+            document.getElementById('trat-coasco').textContent = '€ ' + coasco.toFixed(2);
+            document.getElementById('trat-add-reg').textContent = '€ ' + config.addReg.toFixed(2);
+            document.getElementById('trat-add-com').textContent = '€ ' + config.addCom.toFixed(2);
+            document.getElementById('trat-prestito').textContent = '€ ' + config.rataPrestito.toFixed(2);
+            document.getElementById('total-trat').textContent = '€ ' + tratGeneral.toFixed(2);
+            document.getElementById('total-netto').textContent = '€ ' + netto.toFixed(2);
+
+            document.getElementById('hoursWorked').textContent = stats.hoursWorked.toFixed(1) + 'h';
+            document.getElementById('overtimeHours').textContent = stats.overtimeHours.toFixed(1) + 'h';
+
+            const ferieDisp = (config.ferieAnnue / 12) - stats.ferieUsed;
+            document.getElementById('ferieDisp').textContent = ferieDisp.toFixed(1);
+            document.getElementById('ferieUsed').textContent = stats.ferieUsed;
+
+            const rolDisp = config.rolMensili - stats.rolUsed;
+            document.getElementById('rolDisp').textContent = rolDisp.toFixed(2);
+            document.getElementById('rolUsed').textContent = stats.rolUsed.toFixed(2);
+        }
+
+        // EXPORT PDF FUNCTION
+        function exportTurnsToPDF() {
+            try {
+                const month = currentMonth.getMonth();
+                const year = currentMonth.getFullYear();
+                const monthName = new Date(year, month).toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+                
+                let htmlContent = `
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <style>
+                            body { font-family: Arial, sans-serif; font-size: 10px; margin: 20px; }
+                            h2 { text-align: center; color: #208096; }
+                            .subtitle { text-align: center; font-size: 11px; margin: 5px 0 15px 0; }
+                            table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                            th { background-color: #208096; color: white; padding: 8px; text-align: left; border: 1px solid #ccc; font-weight: bold; }
+                            td { padding: 6px; border: 1px solid #ddd; }
+                            tr:nth-child(even) { background-color: #f9f9f9; }
+                            .footer { margin-top: 20px; font-size: 9px; color: #666; text-align: center; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>🛡️ Gestione Turni - Guardia Particolata Giurata</h2>
+                        <div class="subtitle">${config.name} - ${config.company} | Mese: ${monthName}</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>GG</th>
+                                    <th>Tipo</th>
+                                    <th>Orario</th>
+                                    <th>Ore Ordinarie</th>
+                                    <th>Ore Straord.</th>
+                                    <th>Tipo Str.</th>
+                                    <th>Postazione</th>
+                                    <th>Note</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                const daysInMonth = getDaysInMonth(currentMonth);
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    const turnData = turns[dateStr];
+                    const currentDate = new Date(year, month, day);
+                    const dayName = currentDate.toLocaleDateString('it-IT', { weekday: 'short' });
+                    const festivoNome = isFestivo(currentDate);
+                    
+                    const tipoDisplay = turnData ? 
+                        (turnData.tipo === 'mattina' ? '🌅 Mattina' : 
+                         turnData.tipo === 'pomeriggio' ? '🌇 Pomeriggio' : 
+                         turnData.tipo === 'notte' ? '🌙 Notte' : 
+                         turnData.tipo === 'ferie' ? '💙 Ferie' : 
+                         turnData.tipo === 'rol' ? '💗 ROL' : '🟢 Riposo') 
+                        : (festivoNome ? '🎉 ' + festivoNome : '');
+                    
+                    const orario = turnData && (turnData.tipo === 'mattina' || turnData.tipo === 'pomeriggio' || turnData.tipo === 'notte') 
+                        ? `${turnData.oraInizio}-${turnData.oraFine}` 
+                        : '';
+                    
+                    const oreOrd = turnData ? turnData.ore.toFixed(1) : '';
+                    const oreStraord = turnData ? (turnData.straord ? turnData.straord.toFixed(1) : '') : '';
+                    const tipoStraord = turnData && turnData.straordType ? 
+                        (turnData.straordType === 'notturno' ? '+30%' : 
+                         turnData.straordType === 'festivo' ? '+50%' : 
+                         turnData.straordType === 'nottfestivo' ? '+60%' : '+15%') 
+                        : '';
+                    const postazione = turnData ? (turnData.postazione || '') : '';
+                    const note = festivoNome ? festivoNome : (turnData && turnData.festivo ? 'Festivo' : '');
+                    
+                    htmlContent += `
+                        <tr>
+                            <td>${day}</td>
+                            <td>${dayName}</td>
+                            <td>${tipoDisplay}</td>
+                            <td>${orario}</td>
+                            <td>${oreOrd}</td>
+                            <td>${oreStraord}</td>
+                            <td>${tipoStraord}</td>
+                            <td>${postazione}</td>
+                            <td>${note}</td>
+                        </tr>
+                    `;
+                }
+                
+                const stats = calculateStats();
+                htmlContent += `
+                            </tbody>
+                        </table>
+                        <div class="footer">
+                            <p><strong>Riepilogo:</strong> Ore Lavorate: ${stats.hoursWorked.toFixed(1)}h | Straordinari: ${stats.overtimeHours.toFixed(1)}h</p>
+                            <p>Esportato il: ${new Date().toLocaleString('it-IT')}</p>
+                        </div>
+                    </body>
+                    </html>
+                `;
+                
+                const element = document.createElement('div');
+                element.innerHTML = htmlContent;
+                
+                const opt = {
+                    margin: 10,
+                    filename: `Turni_${config.name}_${monthName.replace(' ', '_')}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { orientation: 'landscape', unit: 'mm', format: 'a4' }
+                };
+                
+                html2pdf().set(opt).from(htmlContent).save();
+                alert('✅ PDF esportato con successo!');
+            } catch (e) {
+                console.error('Errore esportazione PDF:', e);
+                alert('❌ Errore durante l\'esportazione del PDF: ' + e.message);
+            }
+        }
+
+        // MOBILE VIEWPORT FIX
+        window.addEventListener('load', () => {
+            document.documentElement.style.height = '100%';
+            document.body.style.height = '100%';
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        });
+
+        window.addEventListener('resize', () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        });
+
+        // Prevent zoom on iOS
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, false);
+
+        // INIT
+        loadConfig();
+        updateProfiloPreview();
+        renderCalendar();
+        updateDashboard();
+    </script>
+    
+    <!-- LOAD jsPDF LIBRARY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>
